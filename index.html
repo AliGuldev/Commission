@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <script>
+        //defining variables
+        let salesTotal = 0.00;
+        let userInput;
+        let commissionRate = 0.00;
+        let totalCommission;
+        let totalEarnings;
+        let outputHTML = "";
+        
+        //Username prompt
+        const userName = prompt("Please enter your name:");
+
+
+        do {
+            // Prompt for the sale amount
+            userInput = prompt(`Enter the dollar amount for your sales a single sale at a time. Enter Done when you are finished.`);
+
+            //Check if the input is equal to done
+            if (userInput !== null && userInput.toUpperCase() !== "DONE") {
+                
+                //Parsing the input
+                const saleAmount = parseFloat(userInput);
+                
+                salesTotal += saleAmount;
+            }
+        } while (userInput === null || userInput.toUpperCase() !== "DONE");
+
+
+        //Determining the rate
+        if (salesTotal >= 1000.00) {
+            commissionRate = 0.15;
+        } else if (salesTotal >= 500.00) {
+            commissionRate = 0.10;
+        } else if (salesTotal > 0.00) {
+            commissionRate = 0.05;
+        } else {
+            commissionRate = 0.00;
+        }
+
+        //Final Calculations
+        totalCommission = (salesTotal * commissionRate);
+        totalEarnings = (salesTotal + totalCommission);
+        
+
+
+        //Currency Formatter
+        const currencyFormatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        //Commission percent formatter
+        const percentFormatter = new Intl.NumberFormat('en-US', {
+            style: 'percent',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        //Formatting the calculated values
+        const formattedST = currencyFormatter.format(salesTotal);
+        const formattedCR = percentFormatter.format(commissionRate);
+        const formattedTC = currencyFormatter.format(totalCommission);
+        const formattedTE = currencyFormatter.format(totalEarnings);
+
+        outputHTML = `
+            <div>
+                <h2>Hello ${userName}, Here is your Weekly Commission Report.</h2>
+                <p>Your sales total is ${formattedST}, so your commission rate is ${formattedCR}</p>
+                <p>Your total commission is ${formattedTC}.</p>
+                <p>Your total earnings are ${formattedTE}</p>
+            </div>
+        `;
+        
+        document.write(outputHTML);
+
+    </script>
+
+</body>
+</html>
